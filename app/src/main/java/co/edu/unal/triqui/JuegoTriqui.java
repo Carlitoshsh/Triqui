@@ -21,18 +21,21 @@ public class JuegoTriqui {
         }
     }
 
-
-
     public void realizarMovimiento(char jugador, int localizacion){
         triqui[localizacion] = jugador;
         ultimoMovimiento = localizacion;
-        System.out.println("juega " + jugador);
-
     }
 
     public int realizarMovimientoPC(){
         boolean esValido = false;
         int movimiento, last;
+
+        int ganador = definirGanador();
+
+        if(ganador == 2 || ganador == 3){
+            return -1;
+        }
+
         Random random = new Random();
         if (triqui[4] == OPEN_SPOT){
             triqui[4] = COMPUTER_PLAYER;
@@ -41,48 +44,72 @@ public class JuegoTriqui {
         else {
             do {
                 last = (ultimoMovimiento+random.nextInt(9))%9;
-                System.out.println(triqui[last] + " " + esValido);
                 if(triqui[last] == OPEN_SPOT){
-                    System.out.println(triqui[last] + " " + last + " ENTRÓ");
                     esValido = true;
                 } else {
-                    boolean todoLleno = true;
-                    for(int i = 0; i < 9; i++){
-                        if (triqui[i] == OPEN_SPOT){
-                            todoLleno = false;
-                        }
-                    }
-
-                    System.out.println("Lleno " + todoLleno);
-
-                    if(todoLleno){
+                    if(ganador == 2 || ganador == 3){
                         esValido = true;
                     }
-
                 }
             } while (!esValido);
             movimiento = last;
         }
-        System.out.println("The movement PC: "+movimiento);
         return movimiento;
     }
 
+    private boolean victoria(char c1, char c2, char c3){
+        return ((c1 != OPEN_SPOT) && (c1 == c2) && (c2 == c3));
+    }
+
+    private boolean verificarFilas(int numColumn){
+            if(victoria(triqui[numColumn*3],triqui[1+(numColumn*3)],triqui[2+(numColumn*3)]))
+               return true;
+        return false;
+    }
+
+    private boolean verificarColumnas(int fila){
+        if(victoria(triqui[fila], triqui[3+fila], triqui[6+fila]))
+            return true;
+        return false;
+    }
+
+    private boolean verificarDiagonales() {
+        if(victoria(triqui[0], triqui[4], triqui[8]) || victoria(triqui[2], triqui[4], triqui[6]))
+            return true;
+        return false;
+    }
+
     public int definirGanador() {
-/*
+
+        boolean androidWin = false, meWin;
+
+        if(verificarFilas(0) || verificarFilas(1) || verificarFilas(2))
+            androidWin = true;
+
+        if(verificarColumnas(0) || verificarColumnas(1) || verificarColumnas(2))
+            androidWin = true;
+
+        if(verificarDiagonales())
+            androidWin = true;
+
+        if(androidWin){
+            System.out.println("¿Quién ganó?");
+                return 3;
+        }
+
         boolean todoLleno = true;
         for(int i = 0; i < 9; i++){
             if (triqui[i] == OPEN_SPOT){
                 todoLleno = false;
-            } else {
-                todoLleno = true;
             }
         }
 
-        if(todoLleno = true){
+        if(todoLleno){
             return 1;
         }
-*/
 
         return 0;
     }
+
+
 }

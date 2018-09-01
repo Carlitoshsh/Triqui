@@ -99,20 +99,20 @@ public class Triqui extends AppCompatActivity {
                 // If no winner yet, let the computer make a move
                 int winner = juego.definirGanador();
                 if (winner == 0) {
-                    mInfoTextView.setText("It's Android's turn.");
+                    mInfoTextView.setText("Turno de ANDROID.");
                     int move = juego.realizarMovimientoPC();
                     realizarMovimiento(JuegoTriqui.COMPUTER_PLAYER, move);
                     winner = juego.definirGanador();
                 }
 
                 if (winner == 0)
-                    mInfoTextView.setText("It's your turn.");
+                    mInfoTextView.setText("¡Es tu turno!");
                 else if (winner == 1)
-                    mInfoTextView.setText("It's a tie!");
+                    mInfoTextView.setText("¡Es un EMPATE!");
                 else if (winner == 2)
-                    mInfoTextView.setText("You won!");
+                    mInfoTextView.setText("¡GANASTE!");
                 else
-                    mInfoTextView.setText("Android won!");
+                    mInfoTextView.setText("¡Perdiste!");
             }
         }
     }
