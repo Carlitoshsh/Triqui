@@ -1,9 +1,9 @@
 package co.edu.unal.triqui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +21,9 @@ public class Triqui extends AppCompatActivity {
     // Various text displayed
     private TextView mInfoTextView;
 
-
     private TextView mTextMessage;
+
+   
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -31,13 +32,16 @@ public class Triqui extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    //mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                    FragmentoDeDialogo dialogFragment = new FragmentoDeDialogo();
+                    dialogFragment.navItem = 2;
+                    dialogFragment.show(getSupportFragmentManager(), "Dialogo");
+                    //mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                    //mTextMessage.setText(R.string.title_notifications);
                     return true;
             }
             return false;
@@ -65,7 +69,7 @@ public class Triqui extends AppCompatActivity {
         juego = new JuegoTriqui();
 
         mTextMessage = findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
@@ -76,11 +80,11 @@ public class Triqui extends AppCompatActivity {
         for (int i = 0; i < mBoardButtons.length; i++) {
             mBoardButtons[i].setText("");
             mBoardButtons[i].setEnabled(true);
+            mBoardButtons[i].setBackground(ContextCompat.getDrawable(this.getBaseContext(), R.drawable.round_button_border));
             mBoardButtons[i].setOnClickListener(new ButtonClickListener(i));
-
         }
 
-        mInfoTextView.setText("Por favor, ¡inicie!");
+        mInfoTextView.setText(R.string.game_default);
     }
 
 
@@ -88,7 +92,7 @@ public class Triqui extends AppCompatActivity {
     private class ButtonClickListener implements View.OnClickListener {
         int location;
 
-        public ButtonClickListener(int location) {
+        private ButtonClickListener(int location) {
             this.location = location;
         }
 
@@ -99,20 +103,28 @@ public class Triqui extends AppCompatActivity {
                 // If no winner yet, let the computer make a move
                 int winner = juego.definirGanador();
                 if (winner == 0) {
-                    mInfoTextView.setText("Turno de ANDROID.");
+                    mInfoTextView.setText(R.string.game_android_turn);
                     int move = juego.realizarMovimientoPC();
                     realizarMovimiento(JuegoTriqui.COMPUTER_PLAYER, move);
                     winner = juego.definirGanador();
                 }
 
                 if (winner == 0)
-                    mInfoTextView.setText("¡Es tu turno!");
-                else if (winner == 1)
-                    mInfoTextView.setText("¡Es un EMPATE!");
-                else if (winner == 2)
-                    mInfoTextView.setText("¡GANASTE!");
-                else
-                    mInfoTextView.setText("¡Perdiste!");
+                    mInfoTextView.setText(R.string.game_player_turn);
+                else {
+                    if (winner == 1)
+                        mInfoTextView.setText(R.string.game_tie);
+                    else if (winner == 2)
+                        mInfoTextView.setText(R.string.game_player_win);
+                    else
+                        mInfoTextView.setText(R.string.game_android_win);
+
+                    for (Button mBoardButton: mBoardButtons) {
+                        if(mBoardButton.getText() == "")
+                            mBoardButton.setEnabled(false);
+                    }
+
+                }
             }
         }
     }
@@ -121,11 +133,14 @@ public class Triqui extends AppCompatActivity {
         juego.realizarMovimiento(player, location);
         mBoardButtons[location].setEnabled(false);
         mBoardButtons[location].setText(String.valueOf(player));
+        mBoardButtons[location].setBackgroundColor(getResources().getColor(R.color.colorBackground));
         if (player == JuegoTriqui.HUMAN_PLAYER)
-            mBoardButtons[location].setTextColor(Color.rgb(0, 200, 0));
+            mBoardButtons[location].setTextColor(getResources().getColor(R.color.colorPlayer));
         else
-            mBoardButtons[location].setTextColor(Color.rgb(200, 0, 0));
+            mBoardButtons[location].setTextColor(getResources().getColor(R.color.colorComputer));
 
     }
 
 }
+
+   

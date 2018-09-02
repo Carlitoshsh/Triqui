@@ -1,6 +1,21 @@
 <resources>
     <string name="app_name">Triqui</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">¡Jugar!</string>
+    <string name="title_dashboard">Dificultad</string>
+    <string name="title_notifications">Ayuda</string>
+    <!-- Game states -->
+    <string name="game_android_turn">Turno de ANDROID.</string>
+    <string name="game_player_turn">¡Es tu turno!</string>
+    <string name="game_player_win">¡GANASTE!</string>
+    <string name="game_tie">¡Es un EMPATE!</string>
+    <string name="game_android_win">¡Perdiste!</string>
+    <string name="game_default">Por favor, ¡inicie!</string>
+    <!-- Dialog -->
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_ok"><b>Seleccionar</b></string>
+    <string-array name="dificultad">
+        <item>Fácil</item>
+        <item>Normal</item>
+        <item>Difícil</item>
+    </string-array>
 </resources>

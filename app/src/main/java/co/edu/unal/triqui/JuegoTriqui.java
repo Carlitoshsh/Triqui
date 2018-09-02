@@ -6,15 +6,13 @@ public class JuegoTriqui {
     // Characters used to represent the human, computer, and open spots
     public static final char HUMAN_PLAYER = 'X';
     public static final char COMPUTER_PLAYER = 'O';
-    public static final char OPEN_SPOT = ' ';
+    private static final char OPEN_SPOT = ' ';
     public static final int BOARD_SIZE = 9;
     public char[] triqui = new char[BOARD_SIZE];
     private int ultimoMovimiento;
     private boolean esPc;
 
-    JuegoTriqui(){
-
-    }
+    JuegoTriqui(){ }
 
     public void borrarTablero(){
         for(int i = 0; i < triqui.length; i++){
@@ -47,10 +45,6 @@ public class JuegoTriqui {
                 last = (ultimoMovimiento+random.nextInt(9))%9;
                 if(triqui[last] == OPEN_SPOT){
                     esValido = true;
-                } else {
-                    if(ganador == 2 || ganador == 3){
-                        esValido = true;
-                    }
                 }
             } while (!esValido);
             movimiento = last;
@@ -59,33 +53,28 @@ public class JuegoTriqui {
     }
 
     private boolean victoria(char c1, char c2, char c3){
-        if((c1 != OPEN_SPOT) && (c1 == c2) && (c2 == c3))
-            if(c1 == COMPUTER_PLAYER)
-                esPc = true;
-        return ((c1 != OPEN_SPOT) && (c1 == c2) && (c2 == c3));
+        boolean condicionDeVictoria = (c1 != OPEN_SPOT) && (c1 == c2) && (c2 == c3);
+        if(condicionDeVictoria)
+            esPc = (c1 == COMPUTER_PLAYER);
+        return condicionDeVictoria;
     }
 
     private boolean verificarFilas(int numColumn){
-            if(victoria(triqui[numColumn*3],triqui[1+(numColumn*3)],triqui[2+(numColumn*3)]))
-               return true;
-        return false;
+        return (victoria(triqui[numColumn*3],triqui[1+(numColumn*3)],triqui[2+(numColumn*3)]));
+
     }
 
     private boolean verificarColumnas(int fila){
-        if(victoria(triqui[fila], triqui[3+fila], triqui[6+fila]))
-            return true;
-        return false;
+        return (victoria(triqui[fila], triqui[3+fila], triqui[6+fila]));
     }
 
     private boolean verificarDiagonales() {
-        if(victoria(triqui[0], triqui[4], triqui[8]) || victoria(triqui[2], triqui[4], triqui[6]))
-            return true;
-        return false;
+        return(victoria(triqui[0], triqui[4], triqui[8]) || victoria(triqui[2], triqui[4], triqui[6]));
     }
 
     public int definirGanador() {
 
-        boolean androidWin = false, meWin;
+        boolean androidWin = false;
 
         if(verificarFilas(0) || verificarFilas(1) || verificarFilas(2))
             androidWin = true;
@@ -97,7 +86,6 @@ public class JuegoTriqui {
             androidWin = true;
 
         if(androidWin){
-            System.out.println("¿Quién ganó?" + esPc);
             if(esPc)
                 return 3;
             else

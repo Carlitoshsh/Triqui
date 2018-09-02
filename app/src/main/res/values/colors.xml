@@ -3,4 +3,8 @@
     <color name="colorPrimary">#1a76a5</color>
     <color name="colorPrimaryDark">#135679</color>
     <color name="colorAccent">#2196d1</color>
+    <color name="colorPlayer">#1aa58f</color>
+    <color name="colorComputer">#1a31a5</color>
+    <color name="colorBackground">#fbfdfe</color>
+    <color name="colorTile">#bedeef</color>
 </resources>
