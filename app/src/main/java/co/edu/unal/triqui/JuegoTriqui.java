@@ -10,6 +10,7 @@ public class JuegoTriqui {
     public static final int BOARD_SIZE = 9;
     public char[] triqui = new char[BOARD_SIZE];
     private int ultimoMovimiento;
+    private boolean esPc;
 
     JuegoTriqui(){
 
@@ -58,6 +59,9 @@ public class JuegoTriqui {
     }
 
     private boolean victoria(char c1, char c2, char c3){
+        if((c1 != OPEN_SPOT) && (c1 == c2) && (c2 == c3))
+            if(c1 == COMPUTER_PLAYER)
+                esPc = true;
         return ((c1 != OPEN_SPOT) && (c1 == c2) && (c2 == c3));
     }
 
@@ -93,8 +97,11 @@ public class JuegoTriqui {
             androidWin = true;
 
         if(androidWin){
-            System.out.println("¿Quién ganó?");
+            System.out.println("¿Quién ganó?" + esPc);
+            if(esPc)
                 return 3;
+            else
+                return 2;
         }
 
         boolean todoLleno = true;
