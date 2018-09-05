@@ -21,10 +21,6 @@ public class Triqui extends AppCompatActivity {
     // Various text displayed
     private TextView mInfoTextView;
 
-    private TextView mTextMessage;
-
-   
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -35,12 +31,15 @@ public class Triqui extends AppCompatActivity {
                     //mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_dashboard:
-                    FragmentoDeDialogo dialogFragment = new FragmentoDeDialogo();
-                    dialogFragment.navItem = 2;
-                    dialogFragment.show(getSupportFragmentManager(), "Dialogo");
+                    FragmentoDeDialogo dialogoDeNivel = new FragmentoDeDialogo();
+                    dialogoDeNivel.navItem = 2;
+                    dialogoDeNivel.show(getSupportFragmentManager(), "Nivel");
                     //mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
+                    FragmentoDeDialogo dialogoDeAyuda = new FragmentoDeDialogo();
+                    dialogoDeAyuda.navItem = 3;
+                    dialogoDeAyuda.show(getSupportFragmentManager(), "Ayuda");
                     //mTextMessage.setText(R.string.title_notifications);
                     return true;
             }
@@ -68,10 +67,8 @@ public class Triqui extends AppCompatActivity {
 
         juego = new JuegoTriqui();
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
     }
 
     public void nuevoJuego(View view) {

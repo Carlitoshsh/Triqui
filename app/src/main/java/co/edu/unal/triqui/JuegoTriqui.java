@@ -10,6 +10,7 @@ public class JuegoTriqui {
     public static final int BOARD_SIZE = 9;
     public char[] triqui = new char[BOARD_SIZE];
     private int ultimoMovimiento;
+    public static int dificultadJuego = 0;
     private boolean esPc;
 
     JuegoTriqui(){ }

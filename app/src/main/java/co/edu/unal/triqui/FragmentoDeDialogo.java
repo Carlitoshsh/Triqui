@@ -9,8 +9,8 @@ import android.support.v4.app.DialogFragment;
 import java.util.ArrayList;
 
 public class FragmentoDeDialogo extends DialogFragment {
-    ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
     public int navItem;
+    int nivelSeleccionado;
 
 
     @Override
@@ -19,10 +19,19 @@ public class FragmentoDeDialogo extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
 
         if(navItem == 2){
-            builder.setSingleChoiceItems(R.array.dificultad, 0,null)
+            System.out.println("Test2"+navItem);
+
+            builder.setSingleChoiceItems(R.array.dificultad, nivelSeleccionado, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // Muestra los niveles que tiene el juego
+                    nivelSeleccionado = i;
+                }
+            })
                     .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-
+                            //getResources().getStringArray(R.array.dificultad)[nivelSeleccionado]
+                            JuegoTriqui.dificultadJuego = nivelSeleccionado;
                         }
                     })
                     .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
@@ -31,7 +40,7 @@ public class FragmentoDeDialogo extends DialogFragment {
                         }
                     });
 
-        } else {
+        } else if(navItem == 3) {
             builder.setMessage(R.string.app_name)
                     .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
