@@ -13,6 +13,7 @@
     <!-- Dialog -->
     <string name="dialog_cancel">Cancelar</string>
     <string name="dialog_ok"><b>Seleccionar</b></string>
+    <string name="iniciar_juego">Iniciar juego</string>
     <string-array name="dificultad">
         <item>Fácil</item>
         <item>Normal</item>

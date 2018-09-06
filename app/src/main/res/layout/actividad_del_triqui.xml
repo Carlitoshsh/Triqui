@@ -112,24 +112,33 @@
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:fontFamily="@font/muli"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:visibility="visible" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/button"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_button"
-        android:textColor="@color/colorBackground"
         android:onClick="nuevoJuego"
-        android:text="Iniciar juego"
-        android:layout_width="150dp"
+        android:text="@string/iniciar_juego"
+        android:textColor="@color/colorBackground"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.80"
         app:layout_constraintLeft_toLeftOf="@+id/navigation"
         app:layout_constraintRight_toRightOf="@+id/navigation"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.80" />
+        app:layout_constraintVertical_bias="0.83" />
 
 </android.support.constraint.ConstraintLayout>

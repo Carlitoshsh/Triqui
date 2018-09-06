@@ -21,6 +21,8 @@ public class Triqui extends AppCompatActivity {
     // Various text displayed
     private TextView mInfoTextView;
 
+    private TextView mInfoLevel;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -64,6 +66,7 @@ public class Triqui extends AppCompatActivity {
         mBoardButtons[8] = findViewById(R.id.nine);
 
         mInfoTextView = findViewById(R.id.information);
+        mInfoLevel = findViewById(R.id.level);
 
         juego = new JuegoTriqui();
 
@@ -80,7 +83,8 @@ public class Triqui extends AppCompatActivity {
             mBoardButtons[i].setBackground(ContextCompat.getDrawable(this.getBaseContext(), R.drawable.round_button_border));
             mBoardButtons[i].setOnClickListener(new ButtonClickListener(i));
         }
-
+        String nivel = (getResources().getStringArray(R.array.dificultad)[JuegoTriqui.dificultadJuego]);
+        mInfoLevel.setText(nivel);
         mInfoTextView.setText(R.string.game_default);
     }
 

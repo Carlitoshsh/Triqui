@@ -18,6 +18,8 @@ public class FragmentoDeDialogo extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
 
+        nivelSeleccionado = JuegoTriqui.dificultadJuego;
+
         if(navItem == 2){
             System.out.println("Test2"+navItem);
 
