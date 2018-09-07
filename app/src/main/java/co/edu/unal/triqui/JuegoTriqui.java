@@ -37,10 +37,14 @@ public class JuegoTriqui {
         }
 
         Random random = new Random();
-        if (triqui[4] == OPEN_SPOT){
+        if (triqui[4] == OPEN_SPOT && (dificultadJuego == 1 || dificultadJuego == 2)){
             triqui[4] = COMPUTER_PLAYER;
             movimiento = 4;
         }
+       // else if(dificultadJuego == 2) {
+         //   last = ()
+          //  movimiento =
+        //}
         else {
             do {
                 last = (ultimoMovimiento+random.nextInt(9))%9;
