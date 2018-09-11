@@ -42,6 +42,9 @@ public class JuegoTriqui {
         if (triqui[4] == OPEN_SPOT && (dificultadJuego == 1 || dificultadJuego == 2)){
             triqui[4] = COMPUTER_PLAYER;
             movimiento = 4;
+        } else if(dificultadJuego == 7 && triqui[7] == OPEN_SPOT){
+            triqui[7] = COMPUTER_PLAYER;
+            movimiento = 7;
         }
         else {
 
@@ -52,7 +55,6 @@ public class JuegoTriqui {
                 int aux = esquinas[indiceRandom];
 
                 if(dificultadJuego == 2 && triqui[aux] == OPEN_SPOT) {
-
                     last = aux;
                 }
 
@@ -61,7 +63,6 @@ public class JuegoTriqui {
                 }
 
             } while (!esValido);
-            System.out.println("The last EXIT: "+last);
             movimiento = last;
         }
         return movimiento;
