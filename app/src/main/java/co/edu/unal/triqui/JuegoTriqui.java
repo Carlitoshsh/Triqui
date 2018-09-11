@@ -1,6 +1,8 @@
 package co.edu.unal.triqui;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class JuegoTriqui {
     // Characters used to represent the human, computer, and open spots
@@ -29,6 +31,7 @@ public class JuegoTriqui {
     public int realizarMovimientoPC(){
         boolean esValido = false;
         int movimiento, last;
+        int[] esquinas = {0,2,6,8};
 
         int ganador = definirGanador();
 
@@ -36,26 +39,34 @@ public class JuegoTriqui {
             return -1;
         }
 
-        Random random = new Random();
         if (triqui[4] == OPEN_SPOT && (dificultadJuego == 1 || dificultadJuego == 2)){
             triqui[4] = COMPUTER_PLAYER;
             movimiento = 4;
         }
-       // else if(dificultadJuego == 2) {
-         //   last = ()
-          //  movimiento =
-        //}
         else {
+
             do {
+                Random random = new Random();
+                int indiceRandom = random.nextInt(esquinas.length);
                 last = (ultimoMovimiento+random.nextInt(9))%9;
+                int aux = esquinas[indiceRandom];
+
+                if(dificultadJuego == 2 && triqui[aux] == OPEN_SPOT) {
+
+                    last = aux;
+                }
+
                 if(triqui[last] == OPEN_SPOT){
                     esValido = true;
                 }
+
             } while (!esValido);
+            System.out.println("The last EXIT: "+last);
             movimiento = last;
         }
         return movimiento;
     }
+
 
     private boolean victoria(char c1, char c2, char c3){
         boolean condicionDeVictoria = (c1 != OPEN_SPOT) && (c1 == c2) && (c2 == c3);
