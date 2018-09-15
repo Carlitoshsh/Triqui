@@ -1,5 +1,8 @@
 package co.edu.unal.triqui;
 
+import android.view.MotionEvent;
+import android.view.View;
+
 import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -23,9 +26,17 @@ public class JuegoTriqui {
         }
     }
 
-    public void realizarMovimiento(char jugador, int localizacion){
-        triqui[localizacion] = jugador;
-        ultimoMovimiento = localizacion;
+    public char obtenerJugadorActual(int posicion){
+        return triqui[posicion];
+    }
+
+    public boolean realizarMovimiento(char jugador, int localizacion){
+        if(triqui[localizacion] == OPEN_SPOT){
+            triqui[localizacion] = jugador;
+            ultimoMovimiento = localizacion;
+            return true;
+        }
+        return false;
     }
 
     public int realizarMovimientoPC(){
@@ -122,6 +133,5 @@ public class JuegoTriqui {
 
         return 0;
     }
-
 
 }

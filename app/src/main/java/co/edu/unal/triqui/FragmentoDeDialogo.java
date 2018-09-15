@@ -21,8 +21,6 @@ public class FragmentoDeDialogo extends DialogFragment {
         nivelSeleccionado = JuegoTriqui.dificultadJuego;
 
         if(navItem == 2){
-            System.out.println("Test2"+navItem);
-
             builder.setSingleChoiceItems(R.array.dificultad, nivelSeleccionado, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -43,9 +41,9 @@ public class FragmentoDeDialogo extends DialogFragment {
                     });
 
         } else if(navItem == 3) {
-            builder.setMessage(R.string.app_name)
-                    .setTitle(R.string.dialog_title)
-                    .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.dialog_title)
+                    .setMessage(R.string.dialog_help)
+                    .setPositiveButton(getString(R.string.dialog_help_ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
 
                         }
