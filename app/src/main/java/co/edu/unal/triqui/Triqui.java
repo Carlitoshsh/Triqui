@@ -29,6 +29,16 @@ public class Triqui extends AppCompatActivity {
     private MediaPlayer mHumanoMediaPlayer;
     private MediaPlayer mComputadorMediaPlayer;
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+
+        outState.putCharArray("tablero",juego.obtenerEstadoJuego());
+        outState.putBoolean("juegoTerminado",juegoTerminado);
+        outState.putCharSequence("info", mInfoTextView.getText());
+    }
+
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -76,7 +86,15 @@ public class Triqui extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.actividad_del_triqui);
+
+        if(savedInstanceState == null){
+            //nuevoJuego(null);
+        } else {
+            juego.fijarEstadoJuego(savedInstanceState.getCharArray("tablero"));
+        }
 
         mInfoTextView = findViewById(R.id.information);
         mInfoLevel = findViewById(R.id.level);

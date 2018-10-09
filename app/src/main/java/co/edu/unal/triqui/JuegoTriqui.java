@@ -26,6 +26,12 @@ public class JuegoTriqui {
         }
     }
 
+    public char[] obtenerEstadoJuego(){
+        System.out.println("Obtener -->");
+        System.out.println(triqui);
+        return triqui;
+    }
+
     public char obtenerJugadorActual(int posicion){
         return triqui[posicion];
     }
@@ -134,4 +140,8 @@ public class JuegoTriqui {
         return 0;
     }
 
+    public void fijarEstadoJuego(char[] tableros) {
+        System.out.println(tableros);
+        triqui = tableros;
+    }
 }
