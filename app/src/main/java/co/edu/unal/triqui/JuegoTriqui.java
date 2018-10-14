@@ -1,11 +1,6 @@
 package co.edu.unal.triqui;
 
-import android.view.MotionEvent;
-import android.view.View;
-
-import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class JuegoTriqui {
     // Characters used to represent the human, computer, and open spots
@@ -27,8 +22,6 @@ public class JuegoTriqui {
     }
 
     public char[] obtenerEstadoJuego(){
-        System.out.println("Obtener -->");
-        System.out.println(triqui);
         return triqui;
     }
 
@@ -141,7 +134,6 @@ public class JuegoTriqui {
     }
 
     public void fijarEstadoJuego(char[] tableros) {
-        System.out.println(tableros);
         triqui = tableros;
     }
 }

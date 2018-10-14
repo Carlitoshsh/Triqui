@@ -21,21 +21,32 @@ public class Triqui extends AppCompatActivity {
 
     // Various text displayed
     private TextView mInfoTextView;
-
     private TextView mInfoLevel;
-    private boolean juegoTerminado = false;
+    private TextView mInfoScore;
 
+    private int contadorAndroid = 0;
+    private int contadorUsuario = 0;
+
+    private boolean juegoTerminado = false;
 
     private MediaPlayer mHumanoMediaPlayer;
     private MediaPlayer mComputadorMediaPlayer;
+
+    private static final String ESTADO_TRIQUI = "tablero";
+    private static final String ESTADO_JUEGO_TERMINADO = "juegoTerminado";
+    private static final String ESTADO_INFORMACION = "informacion";
+    private static final String ESTADO_NIVEL = "nivel";
+    private static final String ESTADO_PUNTAJE = "puntaje";
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
 
-        outState.putCharArray("tablero",juego.obtenerEstadoJuego());
-        outState.putBoolean("juegoTerminado",juegoTerminado);
-        outState.putCharSequence("info", mInfoTextView.getText());
+        outState.putCharArray(ESTADO_TRIQUI,juego.obtenerEstadoJuego());
+        outState.putBoolean(ESTADO_JUEGO_TERMINADO,juegoTerminado);
+        outState.putCharSequence(ESTADO_INFORMACION, mInfoTextView.getText());
+        outState.putCharSequence(ESTADO_NIVEL, mInfoLevel.getText());
+        outState.putCharSequence(ESTADO_PUNTAJE, mInfoScore.getText());
     }
 
 
@@ -81,25 +92,34 @@ public class Triqui extends AppCompatActivity {
         mComputadorMediaPlayer.release();
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        juego.fijarEstadoJuego(savedInstanceState.getCharArray("tablero"));
+
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        juego = new JuegoTriqui();
         setContentView(R.layout.actividad_del_triqui);
-
-        if(savedInstanceState == null){
-            //nuevoJuego(null);
-        } else {
-            juego.fijarEstadoJuego(savedInstanceState.getCharArray("tablero"));
-        }
 
         mInfoTextView = findViewById(R.id.information);
         mInfoLevel = findViewById(R.id.level);
+        mInfoScore = findViewById(R.id.score);
 
-        juego = new JuegoTriqui();
+        if(savedInstanceState != null) {
+            juego.fijarEstadoJuego(savedInstanceState.getCharArray(ESTADO_TRIQUI));
+            juegoTerminado = savedInstanceState.getBoolean(ESTADO_JUEGO_TERMINADO);
+            mInfoScore.setText(savedInstanceState.getCharSequence(ESTADO_PUNTAJE));
+            mInfoTextView.setText(savedInstanceState.getCharSequence(ESTADO_INFORMACION));
+            mInfoLevel.setText(savedInstanceState.getCharSequence(ESTADO_NIVEL));
+        }
+
         mVistaTablero = findViewById(R.id.board);
         mVistaTablero.obtenerJuego(juego);
         mVistaTablero.setOnTouchListener(touchListener);
@@ -155,20 +175,20 @@ public class Triqui extends AppCompatActivity {
                         int move = juego.realizarMovimientoPC();
                         realizarMovimiento(JuegoTriqui.COMPUTER_PLAYER, move);
                         winner = juego.definirGanador();
-                    }
-
-                    if (winner == 0){
-                        mInfoTextView.setText(R.string.game_player_turn);
+                        System.out.println("GANADOR: "+winner);
                         return true;
-
                     }
                     else {
                         if (winner == 1)
                             mInfoTextView.setText(R.string.game_tie);
-                        else if (winner == 2)
+                        else if (winner == 2){
                             mInfoTextView.setText(R.string.game_player_win);
-                        else
+                            mInfoScore.setText("Us: "+(contadorUsuario+1) + " An: "+(contadorAndroid+1));
+                        }
+                        else{
                             mInfoTextView.setText(R.string.game_android_win);
+                            mInfoScore.setText("An: "+(contadorAndroid+1) + " Us: "+(contadorUsuario+1));
+                        }
                         juegoTerminado = true;
                     }
                     return true;

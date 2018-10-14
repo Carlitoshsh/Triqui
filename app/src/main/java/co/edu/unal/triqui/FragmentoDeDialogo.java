@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import java.util.ArrayList;
-
 public class FragmentoDeDialogo extends DialogFragment {
     public int navItem;
     int nivelSeleccionado;

@@ -7,9 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 
@@ -61,7 +59,6 @@ public class VistaTablero extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        System.out.println("pintar");
 
         // Determine the width and height of the View
         int anchoTablero = getWidth();
@@ -93,13 +90,11 @@ public class VistaTablero extends View {
             Rect ubicacion = new Rect(izquierda, arriba, derecha, abajo);
 
             if(mJuego != null && mJuego.obtenerJugadorActual(i) == JuegoTriqui.HUMAN_PLAYER){
-                System.out.println("human");
                 canvas.drawBitmap(mHumanoBitmap,
                         null,
                         ubicacion,
                         null);
             } else if (mJuego != null && mJuego.obtenerJugadorActual(i) == JuegoTriqui.COMPUTER_PLAYER){
-                System.out.println("computer");
                 canvas.drawBitmap(mComputadorBitmap,
                         null,
                         ubicacion,

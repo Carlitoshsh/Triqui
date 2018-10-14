@@ -11,8 +11,8 @@
         android:id="@+id/navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -24,8 +24,14 @@
         android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_editor_absoluteX="0dp"
+        app:layout_editor_absoluteY="0dp">
 
         <co.edu.unal.triqui.VistaTablero
             android:id="@+id/board"
@@ -40,30 +46,46 @@
 
         <TextView
             android:id="@+id/information"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_width="140dp"
+            android:layout_height="46dp"
             android:fontFamily="@font/muli"
             android:gravity="center_horizontal"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/score"
+            app:layout_constraintEnd_toStartOf="@+id/level"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/board"
-            app:layout_constraintTop_toTopOf="@+id/board" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/level"
-            android:layout_width="352dp"
-            android:layout_height="0dp"
+            android:layout_width="152dp"
+            android:layout_height="49dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="56dp"
             android:fontFamily="@font/muli"
             android:gravity="center_horizontal"
             android:textSize="20sp"
             android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/score"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/board"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/information"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="341dp"
+            android:layout_height="43dp"
+            android:fontFamily="@font/muli"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/board"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/level"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_editor_absoluteY="0dp" />
 
     </android.support.constraint.ConstraintLayout>
 
