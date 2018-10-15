@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="sound"
+        android:title="Sonido"
+        android:defaultValue="true"
+        android:summary="Activa/Desactiva el sonido" />
+
+    <EditTextPreference
+        android:key="victory_message"
+        android:summary=""
+        android:fontFamily="@font/muli"
+        android:defaultValue="@string/game_player_win"
+        android:title="Mensaje personalizado" />
+
+    <ListPreference
+        android:key="difficulty_level"
+        android:title="Nivel de dificultad (por defecto)"
+        android:summary=""
+        android:fontFamily="@font/muli"
+        android:defaultValue="@string/dificultad_normal"
+        android:entries="@array/list_difficulty_level"
+        android:entryValues="@array/list_difficulty_level" />
+</PreferenceScreen>

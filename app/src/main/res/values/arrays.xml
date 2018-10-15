@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="list_difficulty_level">
+        <item>@string/dificultad_facil</item>
+        <item>@string/dificultad_normal</item>
+        <item>@string/dificultad_dificil</item>
+    </string-array>
+
+</resources>

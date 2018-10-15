@@ -13,6 +13,11 @@ public class JuegoTriqui {
     public static int dificultadJuego = 0;
     private boolean esPc;
 
+    public int contadorUsuario = 0;
+    public int contadorAndroid = 0;
+    public int contadorEmpates = 0;
+
+
     JuegoTriqui(){ }
 
     public void borrarTablero(){
@@ -113,10 +118,16 @@ public class JuegoTriqui {
             androidWin = true;
 
         if(androidWin){
-            if(esPc)
+            if(esPc) {
+                contadorAndroid += 1;
                 return 3;
-            else
+
+            }
+            else {
+                contadorUsuario += 1;
                 return 2;
+
+            }
         }
 
         boolean todoLleno = true;
@@ -127,6 +138,7 @@ public class JuegoTriqui {
         }
 
         if(todoLleno){
+            contadorEmpates += 1;
             return 1;
         }
 

@@ -1,8 +1,13 @@
 package co.edu.unal.triqui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +21,8 @@ public class Triqui extends AppCompatActivity {
     // Definicion del juego
     private JuegoTriqui juego;
 
+    private SharedPreferences mPrefs, sp;
+
     // Buttons making up the board
     private VistaTablero mVistaTablero;
 
@@ -23,9 +30,6 @@ public class Triqui extends AppCompatActivity {
     private TextView mInfoTextView;
     private TextView mInfoLevel;
     private TextView mInfoScore;
-
-    private int contadorAndroid = 0;
-    private int contadorUsuario = 0;
 
     private boolean juegoTerminado = false;
 
@@ -37,6 +41,10 @@ public class Triqui extends AppCompatActivity {
     private static final String ESTADO_INFORMACION = "informacion";
     private static final String ESTADO_NIVEL = "nivel";
     private static final String ESTADO_PUNTAJE = "puntaje";
+    private static final String PREFERENCES = "ttt_prefs";
+    private static final String USER_WINS = "wUser";
+    private static final String ANDROID_WINS = "wAndroid";
+    private static final String TIES = "mTies";
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
@@ -57,6 +65,9 @@ public class Triqui extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    Intent intent = new Intent(Triqui.this, ConfiguracionActivity.class);
+                    Triqui.this.startActivity(intent);
+
                     //mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_dashboard:
@@ -82,6 +93,8 @@ public class Triqui extends AppCompatActivity {
 
         mHumanoMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.pikachu);
         mComputadorMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.zubat);
+
+
     }
 
     @Override
@@ -120,18 +133,36 @@ public class Triqui extends AppCompatActivity {
             mInfoLevel.setText(savedInstanceState.getCharSequence(ESTADO_NIVEL));
         }
 
+        sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
         mVistaTablero = findViewById(R.id.board);
         mVistaTablero.obtenerJuego(juego);
         mVistaTablero.setOnTouchListener(touchListener);
 
+        mPrefs = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
+        juego.contadorAndroid = mPrefs.getInt(ANDROID_WINS, 0);
+        juego.contadorUsuario = mPrefs.getInt(USER_WINS, 0);
+        juego.contadorEmpates = mPrefs.getInt(TIES, 0);
 
         BottomNavigationView navigation;
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences.Editor ed = mPrefs.edit();
+        ed.putInt(USER_WINS, juego.contadorUsuario);
+        ed.putInt(ANDROID_WINS, juego.contadorAndroid);
+        ed.putInt(TIES, juego.contadorEmpates);
+        ed.commit();
+    }
 
     public void nuevoJuego(View view) {
+        mInfoScore.setText("An: "+(juego.contadorAndroid) + " Us: "+(juego.contadorUsuario) + " T: "+juego.contadorEmpates);
         juegoTerminado = false;
         juego.borrarTablero();
         // Reset all buttons
@@ -145,10 +176,12 @@ public class Triqui extends AppCompatActivity {
 
     private boolean realizarMovimiento(char player, int location) {
         if(juego.realizarMovimiento(player, location)){
-            if(player == JuegoTriqui.HUMAN_PLAYER){
-                mHumanoMediaPlayer.start();
-            } else if(player == JuegoTriqui.COMPUTER_PLAYER){
-                mComputadorMediaPlayer.start();
+            if(sp.getBoolean("sound", false)){
+                if(player == JuegoTriqui.HUMAN_PLAYER){
+                    mHumanoMediaPlayer.start();
+                } else if(player == JuegoTriqui.COMPUTER_PLAYER){
+                    mComputadorMediaPlayer.start();
+                }
             }
            mVistaTablero.invalidate();
            return true;
@@ -171,23 +204,21 @@ public class Triqui extends AppCompatActivity {
                     int winner = juego.definirGanador();
 
                     if (winner == 0) {
+
                         mInfoTextView.setText(R.string.game_android_turn);
                         int move = juego.realizarMovimientoPC();
                         realizarMovimiento(JuegoTriqui.COMPUTER_PLAYER, move);
                         winner = juego.definirGanador();
-                        System.out.println("GANADOR: "+winner);
                         return true;
                     }
                     else {
                         if (winner == 1)
                             mInfoTextView.setText(R.string.game_tie);
                         else if (winner == 2){
-                            mInfoTextView.setText(R.string.game_player_win);
-                            mInfoScore.setText("Us: "+(contadorUsuario+1) + " An: "+(contadorAndroid+1));
+                            mInfoTextView.setText(sp.getString("victory_message","Victoria" ));
                         }
                         else{
                             mInfoTextView.setText(R.string.game_android_win);
-                            mInfoScore.setText("An: "+(contadorAndroid+1) + " Us: "+(contadorUsuario+1));
                         }
                         juegoTerminado = true;
                     }

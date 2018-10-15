@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PokeTriqui</string>
-    <string name="title_home">¡Jugar!</string>
+    <string name="title_home">Configurar</string>
     <string name="title_dashboard">Dificultad</string>
     <string name="title_notifications">Ayuda</string>
     <!-- Game states -->
@@ -13,13 +13,17 @@
     <!-- Dialog -->
     <string name="dialog_cancel">Cancelar</string>
     <string name="dialog_title">PokeTriqui</string>
+    <string name="config">Configuración</string>
     <string name="dialog_help">Los iconos utilizados en este sitio web pertenecen al sitio icons8.com</string>
     <string name="dialog_ok"><b>Seleccionar</b></string>
     <string name="dialog_help_ok"><b>¡Gracias por jugar!</b></string>
     <string name="iniciar_juego">Iniciar juego</string>
+    <string name="dificultad_facil">Fácil</string>
+    <string name="dificultad_normal">Normal</string>
+    <string name="dificultad_dificil">Dificil</string>
     <string-array name="dificultad">
-        <item>Fácil</item>
-        <item>Normal</item>
-        <item>Difícil</item>
+        <item>@string/dificultad_facil</item>
+        <item>@string/dificultad_normal</item>
+        <item>@string/dificultad_dificil</item>
     </string-array>
 </resources>
