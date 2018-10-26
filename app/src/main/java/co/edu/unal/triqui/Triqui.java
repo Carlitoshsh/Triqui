@@ -219,8 +219,9 @@ public class Triqui extends AppCompatActivity {
         mInfoScore.setText("An: "+(juego.contadorAndroid) + " Us: "+(juego.contadorUsuario) + " T: "+juego.contadorEmpates);
         juegoTerminado = false;
         juego.borrarTablero();
-        messageReference1.setValue(sp.getString("player1_name", "Jugador1"));
-        messageReference2.setValue(sp.getString("player2_name", "Jugador2"));
+
+        messageReference1.setValue(sp.getString("player1_name", "Jugador1"), null);
+        messageReference2.setValue(sp.getString("player2_name", "Jugador2"), null);
         // Reset all buttons
         mVistaTablero.invalidate();
 
