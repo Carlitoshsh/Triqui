@@ -148,4 +148,5 @@ public class JuegoTriqui {
     public void fijarEstadoJuego(char[] tableros) {
         triqui = tableros;
     }
+
 }

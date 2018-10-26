@@ -14,6 +14,20 @@
         android:defaultValue="@string/game_player_win"
         android:title="Mensaje personalizado" />
 
+    <EditTextPreference
+        android:key="player1_name"
+        android:summary=""
+        android:fontFamily="@font/muli"
+        android:defaultValue="@string/game_player1_turn"
+        android:title="Nombre jugador 1" />
+
+    <EditTextPreference
+        android:key="player2_name"
+        android:summary=""
+        android:fontFamily="@font/muli"
+        android:defaultValue="@string/game_player2_turn"
+        android:title="Nombre jugador 2" />
+
     <ListPreference
         android:key="difficulty_level"
         android:title="Nivel de dificultad (por defecto)"

@@ -3,20 +3,30 @@ package co.edu.unal.triqui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+
 public class Triqui extends AppCompatActivity {
+
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference messageReference1 = reference.child("jugador1");
+    DatabaseReference messageReference2 = reference.child("jugador2");
 
     // Definicion del juego
     private JuegoTriqui juego;
@@ -30,6 +40,11 @@ public class Triqui extends AppCompatActivity {
     private TextView mInfoTextView;
     private TextView mInfoLevel;
     private TextView mInfoScore;
+
+    boolean turnoJugador1 = false;
+
+    private String n_jugador1;
+    private String n_jugador2;
 
     private boolean juegoTerminado = false;
 
@@ -45,6 +60,45 @@ public class Triqui extends AppCompatActivity {
     private static final String USER_WINS = "wUser";
     private static final String ANDROID_WINS = "wAndroid";
     private static final String TIES = "mTies";
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        messageReference1.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String map = (String) dataSnapshot.getValue();
+                        //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                        Log.d("Hola", "Value is: " + map);
+                        n_jugador1 = map;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+
+        );
+        messageReference2.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String map = (String) dataSnapshot.getValue();
+                        //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                        Log.d("Hola", "Value is: " + map);
+                        n_jugador2 = map;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+
+        );
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
@@ -165,6 +219,8 @@ public class Triqui extends AppCompatActivity {
         mInfoScore.setText("An: "+(juego.contadorAndroid) + " Us: "+(juego.contadorUsuario) + " T: "+juego.contadorEmpates);
         juegoTerminado = false;
         juego.borrarTablero();
+        messageReference1.setValue(sp.getString("player1_name", "Jugador1"));
+        messageReference2.setValue(sp.getString("player2_name", "Jugador2"));
         // Reset all buttons
         mVistaTablero.invalidate();
 
@@ -198,17 +254,27 @@ public class Triqui extends AppCompatActivity {
                 int columna = (int) motionEvent.getX() / mVistaTablero.getBoardCellWidth();
                 int fila = (int) motionEvent.getY() / mVistaTablero.getBoardCellHeight();
                 int posicion = fila * 3 + columna;
+                char caracterJugador;
 
-                if (!juegoTerminado && realizarMovimiento(JuegoTriqui.HUMAN_PLAYER, posicion)) {
+                if(turnoJugador1){
+                    caracterJugador = JuegoTriqui.HUMAN_PLAYER;
+                    mInfoTextView.setText("¡Juega " +n_jugador1+"!");
+
+
+                }else {
+                    caracterJugador = JuegoTriqui.COMPUTER_PLAYER;
+                    mInfoTextView.setText("¡Juega " +n_jugador2+"!");
+
+                }
+
+
+                if (!juegoTerminado && (realizarMovimiento(caracterJugador, posicion))) {
 
                     int winner = juego.definirGanador();
 
                     if (winner == 0) {
 
-                        mInfoTextView.setText(R.string.game_android_turn);
-                        int move = juego.realizarMovimientoPC();
-                        realizarMovimiento(JuegoTriqui.COMPUTER_PLAYER, move);
-                        winner = juego.definirGanador();
+                        cambiarTurno();
                         return true;
                     }
                     else {
@@ -228,6 +294,16 @@ public class Triqui extends AppCompatActivity {
                 return false;
             }
         };
+    }
+
+    private void cambiarTurno() {
+        turnoJugador1 = !turnoJugador1;
+        if(turnoJugador1){
+            mInfoTextView.setText(R.string.game_player1_turn);
+        } else {
+            mInfoTextView.setText(R.string.game_player2_turn);
+
+        }
     }
 
 }

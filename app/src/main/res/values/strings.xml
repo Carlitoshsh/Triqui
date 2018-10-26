@@ -6,6 +6,8 @@
     <!-- Game states -->
     <string name="game_android_turn">Turno de ANDROID.</string>
     <string name="game_player_turn">¡Es tu turno!</string>
+    <string name="game_player1_turn">¡Juega jugador_1!</string>
+    <string name="game_player2_turn">¡Juega jugador_2!</string>
     <string name="game_player_win">¡GANASTE!</string>
     <string name="game_tie">¡Es un EMPATE!</string>
     <string name="game_android_win">¡Perdiste!</string>
