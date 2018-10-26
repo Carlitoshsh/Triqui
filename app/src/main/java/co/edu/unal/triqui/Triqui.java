@@ -21,12 +21,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
+
 
 public class Triqui extends AppCompatActivity {
 
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     DatabaseReference messageReference1 = reference.child("jugador1");
     DatabaseReference messageReference2 = reference.child("jugador2");
+    DatabaseReference tableroReference = reference.child("triqui");
 
     // Definicion del juego
     private JuegoTriqui juego;
@@ -45,6 +48,7 @@ public class Triqui extends AppCompatActivity {
 
     private String n_jugador1;
     private String n_jugador2;
+    private String n_tablero;
 
     private boolean juegoTerminado = false;
 
@@ -89,6 +93,24 @@ public class Triqui extends AppCompatActivity {
                         //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                         Log.d("Hola", "Value is: " + map);
                         n_jugador2 = map;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+
+        );
+
+        tableroReference.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String map = (String) dataSnapshot.getValue();
+                        //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                        Log.d("Hola", "Value is: " + map);
+                        n_tablero = map;
                     }
 
                     @Override
@@ -222,6 +244,7 @@ public class Triqui extends AppCompatActivity {
 
         messageReference1.setValue(sp.getString("player1_name", "Jugador1"), null);
         messageReference2.setValue(sp.getString("player2_name", "Jugador2"), null);
+
         // Reset all buttons
         mVistaTablero.invalidate();
 
@@ -269,13 +292,15 @@ public class Triqui extends AppCompatActivity {
                 }
 
 
+
                 if (!juegoTerminado && (realizarMovimiento(caracterJugador, posicion))) {
 
                     int winner = juego.definirGanador();
 
                     if (winner == 0) {
-
                         cambiarTurno();
+                        n_tablero = Arrays.toString(juego.obtenerEstadoJuego());
+                        tableroReference.setValue(n_tablero);
                         return true;
                     }
                     else {
